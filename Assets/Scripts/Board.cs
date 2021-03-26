@@ -30,16 +30,17 @@ public class Board : MonoBehaviour
                 newTile.transform.parent = this.transform;
                 newTile.name = string.Format("{0}, {1}", i, j);//name tile on graph
 
-                int redos = 0;
+                //int redos = 0;
 
                 int shapeToUse = Random.Range(0, shapes.Length);
                 while (MatchesAt(i, j, shapes[shapeToUse]))//while there are still matches when loading board
                 {
                     shapeToUse = Random.Range(0, shapes.Length);//try randomly picking a different shape
-                    redos++;
+                    //redos++;
                 }
-                Debug.Log(redos);
-                redos = 0;
+                //Debug.Log(redos);
+                //redos = 0;
+
                 //spawn shapes randomly
                 GameObject shape = Instantiate(shapes[shapeToUse], curPosition, Quaternion.identity);
                 shape.transform.parent = this.transform;
