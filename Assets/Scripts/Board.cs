@@ -9,14 +9,14 @@ public class Board : MonoBehaviour
     public int height;
     public GameObject tilePiece;
     public GameObject[] shapes;
-    private BackBoard[,] allTiles;//creates empty 2D array
+    //private BackBoard[,] allTiles;//creates empty 2D array
     private GameObject[,] allShapes;//to store all shapes on grid
 
     // Start is called before the first frame update
     void Start()
     {
         //sets boards height and width(how big the board needs to be)
-        allTiles = new BackBoard[width, height];//gives allPieces its height and width
+        //allTiles = new BackBoard[width, height];//gives allPieces its height and width
         allShapes = new GameObject[width, height];//gives allshapes its max height and width
 
         //Sets up board
