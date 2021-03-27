@@ -19,12 +19,28 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     private void OnMouseDown()
     {
-        startMouseHoldPos = Input.mousePosition;
+        var tempMousePosition = Input.mousePosition;
+        tempMousePosition.z = 10;
+        startMouseHoldPos = Camera.main.ScreenToWorldPoint(tempMousePosition);
         Debug.Log(startMouseHoldPos);
+    }
+
+    private void OnMouseUp()
+    {
+        var tempMousePosition = Input.mousePosition;
+        tempMousePosition.z = 10;
+        endMouseHoldPos = Camera.main.ScreenToWorldPoint(tempMousePosition);
+        CalculateDragAngle();//calculate angle after player lets go of mouse click
+    }
+
+    void CalculateDragAngle()
+    {
+        dragAngle = Mathf.Atan2(endMouseHoldPos.y - startMouseHoldPos.y, endMouseHoldPos.x - startMouseHoldPos.x) * 180 / Mathf.PI;
+        Debug.Log(dragAngle);
     }
 }
