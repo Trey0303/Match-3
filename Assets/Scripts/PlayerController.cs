@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Board
 {
     public int col;
     public int row;
-    public Board board;//reference Board script
+
+    public int targetX;
+    public int targetY;
+
+    public static Board board;//reference Board script
     private GameObject otherShape;
 
     private Vector2 startMouseHoldPos;
@@ -18,12 +22,17 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         board = FindObjectOfType<Board>();
+        targetX = (int)transform.position.x;
+        targetY = (int)transform.position.y;
+        col = targetX;
+        row = targetY;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        targetX = col;
+        targetY = row;
     }
 
     private void OnMouseDown()//when clicked
@@ -52,10 +61,33 @@ public class PlayerController : MonoBehaviour
 
     void MoveShape()
     {
-        if(dragAngle > -45 && dragAngle <= 45)
+        if (dragAngle > -45 && dragAngle <= 45 /*&& /*col < board.width*/)//right
         {
             Debug.Log("right");
-            //otherShape = Board.allShapes[];
+            otherShape = allShapes[col + 1, row];//otherShape is the shape on the next col right of current col
+            otherShape.GetComponent<PlayerController>().col -= 1;//make otherShape move one col back
+            col += 1;//place current shape moves one col over
+        }
+        else if (dragAngle > 45 && dragAngle <= 135 /*&& row < board.height*/)//up
+        {
+            Debug.Log("up");
+            otherShape = allShapes[col, row + 1];//otherShape is the shape on the next col right of current col
+            otherShape.GetComponent<PlayerController>().row -= 1;//make otherShape move one col back
+            row += 1;//place current shape moves one col over
+        }
+        else if ((dragAngle > 135 || dragAngle <= -135) /*&& col >= 1*/)//left
+        {
+            Debug.Log("left");
+            otherShape = allShapes[col + 1, row];//otherShape is the shape on the next col right of current col
+            otherShape.GetComponent<PlayerController>().col += 1;//make otherShape move one col back
+            col -= 1;//place current shape moves one col over
+        }
+        else if (dragAngle > -45 && dragAngle <= -135 /*&& row >= 1*/)//down
+        {
+            Debug.Log("down");
+            otherShape = allShapes[col, row - 1];//otherShape is the shape on the next col right of current col
+            otherShape.GetComponent<PlayerController>().row += 1;//make otherShape move one col back
+            row -= 1;//place current shape moves one col over
         }
     }
 }
