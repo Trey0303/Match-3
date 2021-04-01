@@ -10,7 +10,7 @@ public class Board : MonoBehaviour
     public GameObject tilePiece;
     public GameObject[] shapes;
     //private BackBoard[,] allTiles;//creates empty 2D array
-    private GameObject[,] allShapes;//to store all shapes on grid
+    public static GameObject[,] allShapes;//to store all shapes on grid
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,7 @@ public class Board : MonoBehaviour
             for (int j = 0; j < height; j++)
             {
                 //spawn board tiles
-                Vector2 curPosition = new Vector2(i, j);//gets current grid position
+                Vector2 curPosition = new Vector2(i, j);//gets current grid position(add or subtract i or j to adjust the boards x or y spawn position)
                 GameObject newTile = Instantiate(tilePiece, curPosition, Quaternion.identity);//create new tile at current position
                 newTile.transform.parent = this.transform;
                 newTile.name = string.Format("{0}, {1}", i, j);//name tile on graph
