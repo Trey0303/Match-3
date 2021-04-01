@@ -2,37 +2,63 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : Board
+public class PlayerController : MonoBehaviour
 {
     public int col;
     public int row;
 
+    //used to actually move the shapes
     public int targetX;
     public int targetY;
 
-    public static Board board;//reference Board script
-    private GameObject otherShape;
+    public Board board;//reference Board script
+    private GameObject otherShape;//points to shape that needs to change with current shape
 
-    private Vector2 startMouseHoldPos;
-    private Vector2 endMouseHoldPos;
+    private Vector2 startMouseHoldPos;//holds start position of mouse click
+    private Vector2 endMouseHoldPos;//holds end position of mouse click
+    private Vector2 tempPosition;//holds the position that target should move to
 
     public float dragAngle = 0.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        board = FindObjectOfType<Board>();
+        board = GameObject.Find("Board").GetComponent<Board>();//finds an object named "Board" and grabs its script to use
+        //cast my transform position as int because my targetX/Y and row/col are int
         targetX = (int)transform.position.x;
         targetY = (int)transform.position.y;
-        col = targetX;
-        row = targetY;
+        col = targetX;//sets col to start equal targetX position
+       row = targetY;//sets col to start to equal targetY position
     }
 
     // Update is called once per frame
     void Update()
     {
-        targetX = col;
-        targetY = row;
+        targetX = col;//takes any changes made to the col position and applies to targetX as well
+        targetY = row;//takes any changes made to the row position and applies to targetY as well
+        if (Mathf.Abs(targetX - transform.position.x) > .1)//if not at targetX position
+        {
+            tempPosition = new Vector2(targetX, transform.position.y);
+            transform.position = Vector2.Lerp(transform.position, tempPosition, .4f);//moves towards the target position
+        }
+        else
+        {
+            tempPosition = new Vector2(targetX, transform.position.y);
+            transform.position = tempPosition;
+            board.allShapes[col, row] = this.gameObject;
+        }
+        if (Mathf.Abs(targetY - transform.position.y) > .1)//if not at targetY position
+        {
+            tempPosition = new Vector2(transform.position.x, targetY);
+            transform.position = Vector2.Lerp(transform.position, tempPosition, .4f);//moves towards the target position
+        }
+        else
+        {
+            tempPosition = new Vector2(transform.position.x, targetY);
+            transform.position = tempPosition;
+            board.allShapes[col, row] = this.gameObject;
+            
+        }
     }
 
     private void OnMouseDown()//when clicked
@@ -61,33 +87,34 @@ public class PlayerController : Board
 
     void MoveShape()
     {
-        if (dragAngle > -45 && dragAngle <= 45 /*&& /*col < board.width*/)//right
+        // if player drags to the right and col is < the last col(max board width)
+        if (dragAngle > -45 && dragAngle <= 45 && col < board.width - 1/*need to sub 1 to keep inbounds of grid*/)//right
         {
             Debug.Log("right");
-            otherShape = allShapes[col + 1, row];//otherShape is the shape on the next col right of current col
+            otherShape = board.allShapes[col + 1, row];//grabs the shape one col after current shape
             otherShape.GetComponent<PlayerController>().col -= 1;//make otherShape move one col back
-            col += 1;//place current shape moves one col over
+            col += 1;//changes the targetX/y position as well
         }
-        else if (dragAngle > 45 && dragAngle <= 135 /*&& row < board.height*/)//up
+        else if (dragAngle > 45 && dragAngle <= 135 && row < board.height - 1)//up
         {
             Debug.Log("up");
-            otherShape = allShapes[col, row + 1];//otherShape is the shape on the next col right of current col
+            otherShape = board.allShapes[col, row + 1];//grabs the shape one row above current shape
             otherShape.GetComponent<PlayerController>().row -= 1;//make otherShape move one col back
-            row += 1;//place current shape moves one col over
+            row += 1;//changes the targetX/y position as well
         }
-        else if ((dragAngle > 135 || dragAngle <= -135) /*&& col >= 1*/)//left
+        else if ((dragAngle > 135 || dragAngle <= -135) && col >= 1)//left
         {
             Debug.Log("left");
-            otherShape = allShapes[col + 1, row];//otherShape is the shape on the next col right of current col
+            otherShape = board.allShapes[col - 1, row];//grabs the shape one col before current shape
             otherShape.GetComponent<PlayerController>().col += 1;//make otherShape move one col back
-            col -= 1;//place current shape moves one col over
+            col -= 1;//changes the targetX/y position as well
         }
-        else if (dragAngle > -45 && dragAngle <= -135 /*&& row >= 1*/)//down
+        else if (dragAngle < -45 && dragAngle >= -135 && row >= 1)//down
         {
             Debug.Log("down");
-            otherShape = allShapes[col, row - 1];//otherShape is the shape on the next col right of current col
+            otherShape = board.allShapes[col, row - 1];//grabs the shape one row below current shape
             otherShape.GetComponent<PlayerController>().row += 1;//make otherShape move one col back
-            row -= 1;//place current shape moves one col over
+            row -= 1;//changes the targetX/y position as well
         }
     }
 }

@@ -10,7 +10,7 @@ public class Board : MonoBehaviour
     public GameObject tilePiece;
     public GameObject[] shapes;
     //private BackBoard[,] allTiles;//creates empty 2D array
-    public static GameObject[,] allShapes;//to store all shapes on grid
+    public GameObject[,] allShapes;//to store all shapes on grid
 
     // Start is called before the first frame update
     void Start()
