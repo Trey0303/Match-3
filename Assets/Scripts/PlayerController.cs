@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
     void MoveShape()
     {
         // if player drags to the right and col is < the last col(max board width)
-        if (dragAngle > -45 && dragAngle <= 45 && col < board.width - 1/*need to sub 1 to keep inbounds of grid*/)//right
+        if (dragAngle > -45 && dragAngle <= 45 && col < board.width - 1/*need to subtract 1 to keep inbounds of grid*/)//right
         {
             Debug.Log("right");
             otherShape = board.allShapes[col + 1, row];//grabs the shape one col after current shape
@@ -108,21 +108,21 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("up");
             otherShape = board.allShapes[col, row + 1];//grabs the shape one row above current shape
-            otherShape.GetComponent<PlayerController>().row -= 1;//make otherShape move one col back
+            otherShape.GetComponent<PlayerController>().row -= 1;//make otherShape move one col forward
             row += 1;//changes the targetX/y position as well
         }
         else if ((dragAngle > 135 || dragAngle <= -135) && col >= 1)//left
         {
             Debug.Log("left");
             otherShape = board.allShapes[col - 1, row];//grabs the shape one col before current shape
-            otherShape.GetComponent<PlayerController>().col += 1;//make otherShape move one col back
+            otherShape.GetComponent<PlayerController>().col += 1;//make otherShape move one col forward
             col -= 1;//changes the targetX/y position as well
         }
         else if (dragAngle < -45 && dragAngle >= -135 && row >= 1)//down
         {
             Debug.Log("down");
             otherShape = board.allShapes[col, row - 1];//grabs the shape one row below current shape
-            otherShape.GetComponent<PlayerController>().row += 1;//make otherShape move one col back
+            otherShape.GetComponent<PlayerController>().row += 1;//make otherShape move one col foward
             row -= 1;//changes the targetX/y position as well
         }
     }
