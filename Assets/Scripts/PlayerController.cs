@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public int targetX;
     public int targetY;
 
+    public bool isMatched = false;
+
     public Board board;//reference Board script
     private GameObject otherShape;//points to shape that needs to change with current shape
 
@@ -34,6 +36,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        FindMatches();
+        if (isMatched)
+        {
+            SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
+            mySprite.color = new Color(0f, 0f, 0f, .2f);
+        }
+
         targetX = col;//takes any changes made to the col position and applies to targetX as well
         targetY = row;//takes any changes made to the row position and applies to targetY as well
         if (Mathf.Abs(targetX - transform.position.x) > .1)//if not at targetX position
@@ -45,7 +54,7 @@ public class PlayerController : MonoBehaviour
         {
             tempPosition = new Vector2(targetX, transform.position.y);
             transform.position = tempPosition;
-            board.allShapes[col, row] = this.gameObject;
+            board.allShapes[col, row] = this.gameObject;//saves updates position on grid
         }
         if (Mathf.Abs(targetY - transform.position.y) > .1)//if not at targetY position
         {
@@ -115,6 +124,33 @@ public class PlayerController : MonoBehaviour
             otherShape = board.allShapes[col, row - 1];//grabs the shape one row below current shape
             otherShape.GetComponent<PlayerController>().row += 1;//make otherShape move one col back
             row -= 1;//changes the targetX/y position as well
+        }
+    }
+
+    //check for shape matches
+    void FindMatches()
+    {
+        if (col >= 1 && col < board.width - 1)//if horizontally matched
+        {
+            GameObject leftShapeOne = board.allShapes[col - 1, row];
+            GameObject rightShapeOne = board.allShapes[col + 1, row];
+            if (leftShapeOne.tag == this.gameObject.tag && rightShapeOne.tag == this.gameObject.tag)
+            {
+                leftShapeOne.GetComponent<PlayerController>().isMatched = true;
+                rightShapeOne.GetComponent<PlayerController>().isMatched = true;
+                isMatched = true;
+            }
+        }
+        if (row >= 1 && row < board.height - 1)//if horizontally matched
+        {
+            GameObject upShapeOne = board.allShapes[col , row + 1];
+            GameObject downShapeOne = board.allShapes[col , row - 1];
+            if (upShapeOne.tag == this.gameObject.tag && downShapeOne.tag == this.gameObject.tag)
+            {
+                upShapeOne.GetComponent<PlayerController>().isMatched = true;
+                downShapeOne.GetComponent<PlayerController>().isMatched = true;
+                isMatched = true;
+            }
         }
     }
 }

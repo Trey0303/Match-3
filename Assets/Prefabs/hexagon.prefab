@@ -121,4 +121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d883ed6c684c742b8e4fd7a4b47cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  col: 0
+  row: 0
+  targetX: 0
+  targetY: 0
+  board: {fileID: 0}
   dragAngle: 0
