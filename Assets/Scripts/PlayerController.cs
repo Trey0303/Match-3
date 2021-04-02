@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
         {
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
             mySprite.color = new Color(0f, 0f, 0f, .2f);
+            board.DestroyMatch();
+            otherShape = null;
         }
 
         targetX = col;//takes any changes made to the col position and applies to targetX as well
@@ -132,9 +134,9 @@ public class PlayerController : MonoBehaviour
     {
         if (col >= 1 && col < board.width - 1)//if horizontally matched
         {
-            GameObject leftShapeOne = board.allShapes[col - 1, row];
-            GameObject rightShapeOne = board.allShapes[col + 1, row];
-            if (leftShapeOne.tag == this.gameObject.tag && rightShapeOne.tag == this.gameObject.tag)
+            GameObject leftShapeOne = board.allShapes[col - 1, row];//looks one shape to the left
+            GameObject rightShapeOne = board.allShapes[col + 1, row];//looks one shape to the right
+            if (leftShapeOne.tag == this.gameObject.tag && rightShapeOne.tag == this.gameObject.tag)//if both tags match
             {
                 leftShapeOne.GetComponent<PlayerController>().isMatched = true;
                 rightShapeOne.GetComponent<PlayerController>().isMatched = true;

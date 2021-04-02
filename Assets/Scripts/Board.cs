@@ -87,4 +87,27 @@ public class Board : MonoBehaviour
         return false;
     }
 
+    public void DestroyMatch()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; i++)
+            {
+                if(allShapes[i, j] != null)
+                {
+                    DestroyAt(i, j);
+                }
+            }
+        }
+    }
+
+    public void DestroyAt(int col, int row)
+    {
+        if (allShapes[col, row].GetComponent<PlayerController>().isMatched)
+        {
+            Destroy(allShapes[col, row]);
+            allShapes[col, row] = null;
+        }
+    }
+
 }
