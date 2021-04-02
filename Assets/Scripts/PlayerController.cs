@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     public int col;
     public int row;
 
+    public int previousRow;
+    public int previousCol;
+
     //used to actually move the shapes
     public int targetX;
     public int targetY;
@@ -41,8 +44,7 @@ public class PlayerController : MonoBehaviour
         {
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
             mySprite.color = new Color(0f, 0f, 0f, .2f);
-            board.DestroyMatch();
-            otherShape = null;
+            //board.DestroyMatch();
         }
 
         targetX = col;//takes any changes made to the col position and applies to targetX as well
