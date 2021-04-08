@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
+    
     //initialize height and width of game board
     public int width;
     public int height;
@@ -11,6 +12,9 @@ public class Board : MonoBehaviour
     public GameObject[] shapes;
     //private BackBoard[,] allTiles;//creates empty 2D array
     public GameObject[,] allShapes;//to store all shapes on grid
+    
+    public int score;
+    public int points = 50;
 
     // Start is called before the first frame update
     void Start()
@@ -110,6 +114,7 @@ public class Board : MonoBehaviour
             allShapes[col, row] = null;
 
             //add points to score
+            score = score + points;
         }
     }
 
