@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         {
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
             mySprite.color = new Color(0f, 0f, 0f, .2f);
-            //board.DestroyMatch();
+            board.DestroyMatch();
         }
 
         targetX = col;//takes any changes made to the col position and applies to targetX as well
@@ -76,26 +76,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public IEnumerator CheckMoveCo()
-    {
-        yield return new WaitForSeconds(.5f);
-        if(otherShape != null)
-        {
-            if (!isMatched && !otherShape.GetComponent<PlayerController>().isMatched)
-            {
-                otherShape.GetComponent<PlayerController>().row = row;
-                otherShape.GetComponent<PlayerController>().col = col;
-                row = previousRow;
-                col = previousCol;
-            }
-            else
-            {
-                board.DestroyMatch();
-            }
-            otherShape = null;
-        }
+    //public IEnumerator CheckMoveCo()
+    //{
+    //    yield return new WaitForSeconds(.5f);
+    //    if(otherShape != null)
+    //    {
+    //        if (!isMatched && !otherShape.GetComponent<PlayerController>().isMatched)
+    //        {
+    //            otherShape.GetComponent<PlayerController>().row = row;
+    //            otherShape.GetComponent<PlayerController>().col = col;
+    //            row = previousRow;
+    //            col = previousCol;
+    //        }
+    //        else
+    //        {
+    //            board.DestroyMatch();
+    //        }
+    //        otherShape = null;
+    //    }
         
-    }
+    //}
 
     private void OnMouseDown()//when clicked
     {
@@ -152,7 +152,7 @@ public class PlayerController : MonoBehaviour
             otherShape.GetComponent<PlayerController>().row += 1;//make otherShape move one col foward
             row -= 1;//changes the targetX/y position as well
         }
-        StartCoroutine(CheckMoveCo());
+        //StartCoroutine(CheckMoveCo());
     }
 
     //check for shape matches
