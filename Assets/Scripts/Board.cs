@@ -34,16 +34,12 @@ public class Board : MonoBehaviour
                 newTile.transform.parent = this.transform;
                 newTile.name = string.Format("{0}, {1}", i, j);//name tile on graph
 
-                //int redos = 0;
 
                 int shapeToUse = Random.Range(0, shapes.Length);
                 while (MatchesAt(i, j, shapes[shapeToUse]))//while there are still matches when loading board
                 {
                     shapeToUse = Random.Range(0, shapes.Length);//try randomly picking a different shape
-                    //redos++;
                 }
-                //Debug.Log(redos);
-                //redos = 0;
 
                 //spawn shapes randomly
                 GameObject shape = Instantiate(shapes[shapeToUse], curPosition, Quaternion.identity);
@@ -95,14 +91,24 @@ public class Board : MonoBehaviour
     {
         for (int i = 0; i < width; i++)//col
         {
-            for(int j = 0; j < height; j++)//row
+            for (int j = 0; j < height; j++)//row
             {
-                if(allShapes[i, j] != null)//is there a shape?
+                if (allShapes[i, j] != null)//is there a shape?
                 {
                     DestroyAt(i, j);
                 }
             }
         }
+
+        //FillBoard();
+
+        ////destroy matches until there are non left on board
+        //while (MatchesOnBoard())
+        //{
+        //    DestroyMatch();
+        //}
+
+        StartCoroutine(ReFillBoard());
     }
 
     private void DestroyAt(int col, int row)
@@ -115,6 +121,57 @@ public class Board : MonoBehaviour
 
             //add points to score
             score = score + points;
+        }
+    }
+
+    private void FillBoard()
+    {
+        for(int i = 0; i< width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if(allShapes[i,j] == null)
+                {
+                    Vector2 tempPosition = new Vector2(i, j);
+                    int ShapeToUse = Random.Range(0, shapes.Length);
+                    GameObject shape = Instantiate(shapes[ShapeToUse], tempPosition, Quaternion.identity);
+                    shape.transform.parent = this.transform;
+                    shape.name = string.Format("{0}, {1}", i, j);
+                    allShapes[i, j] = shape;
+
+                }
+            }
+        }
+    }
+
+    private bool MatchesOnBoard()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (allShapes[i, j] != null)
+                {
+                    if (allShapes[i, j].GetComponent<PlayerController>().isMatched)//if there is a match
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;//no match
+    }
+
+    IEnumerator ReFillBoard()
+    {
+        yield return new WaitForSeconds(.5f);
+        //refill board with new shapes
+        FillBoard();
+
+        //destroy matches until there are non left on board
+        while (MatchesOnBoard())
+        {
+            DestroyMatch();
         }
     }
 
