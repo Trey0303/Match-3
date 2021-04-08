@@ -97,7 +97,7 @@ public class Board : MonoBehaviour
         {
             for(int j = 0; j < height; j++)//row
             {
-                if(allShapes[i, j] != null)
+                if(allShapes[i, j] != null)//is there a shape?
                 {
                     DestroyAt(i, j);
                 }
@@ -107,7 +107,7 @@ public class Board : MonoBehaviour
 
     private void DestroyAt(int col, int row)
     {
-        if (allShapes[col, row].GetComponent<PlayerController>().isMatched)
+        if (allShapes[col, row].GetComponent<PlayerController>().isMatched)//is it a matching shape?
         {
             //destroy target shape and set to null/empty 
             Destroy(allShapes[col, row]);
