@@ -89,9 +89,9 @@ public class Board : MonoBehaviour
 
     public void DestroyMatch()
     {
-        for (int i = 0; i < width; i++)
+        for (int i = 0; i < width - 1; i++)//col
         {
-            for(int j = 0; j < height; i++)
+            for(int j = 0; j < height - 1; i++)//row
             {
                 if(allShapes[i, j] != null)
                 {
