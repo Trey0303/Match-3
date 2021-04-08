@@ -33,7 +33,9 @@ public class PlayerController : MonoBehaviour
         targetX = (int)transform.position.x;
         targetY = (int)transform.position.y;
         col = targetX;//sets col to start equal targetX position
-       row = targetY;//sets col to start to equal targetY position
+        row = targetY;//sets col to start to equal targetY position
+        previousRow = row;
+        previousCol = col;
     }
 
     // Update is called once per frame
@@ -72,6 +74,27 @@ public class PlayerController : MonoBehaviour
             board.allShapes[col, row] = this.gameObject;
             
         }
+    }
+
+    public IEnumerator CheckMoveCo()
+    {
+        yield return new WaitForSeconds(.5f);
+        if(otherShape != null)
+        {
+            if (!isMatched && !otherShape.GetComponent<PlayerController>().isMatched)
+            {
+                otherShape.GetComponent<PlayerController>().row = row;
+                otherShape.GetComponent<PlayerController>().col = col;
+                row = previousRow;
+                col = previousCol;
+            }
+            else
+            {
+                board.DestroyMatch();
+            }
+            otherShape = null;
+        }
+        
     }
 
     private void OnMouseDown()//when clicked
@@ -129,6 +152,7 @@ public class PlayerController : MonoBehaviour
             otherShape.GetComponent<PlayerController>().row += 1;//make otherShape move one col foward
             row -= 1;//changes the targetX/y position as well
         }
+        StartCoroutine(CheckMoveCo());
     }
 
     //check for shape matches
@@ -138,23 +162,31 @@ public class PlayerController : MonoBehaviour
         {
             GameObject leftShapeOne = board.allShapes[col - 1, row];//looks one shape to the left
             GameObject rightShapeOne = board.allShapes[col + 1, row];//looks one shape to the right
-            if (leftShapeOne.tag == this.gameObject.tag && rightShapeOne.tag == this.gameObject.tag)//if both tags match
+            if(leftShapeOne != null && rightShapeOne != null)
             {
-                leftShapeOne.GetComponent<PlayerController>().isMatched = true;
-                rightShapeOne.GetComponent<PlayerController>().isMatched = true;
-                isMatched = true;
+                if (leftShapeOne.tag == this.gameObject.tag && rightShapeOne.tag == this.gameObject.tag)//if both tags match
+                {
+                    leftShapeOne.GetComponent<PlayerController>().isMatched = true;
+                    rightShapeOne.GetComponent<PlayerController>().isMatched = true;
+                    isMatched = true;
+                }
             }
+            
         }
         if (row >= 1 && row < board.height - 1)//if horizontally matched
         {
             GameObject upShapeOne = board.allShapes[col , row + 1];
             GameObject downShapeOne = board.allShapes[col , row - 1];
-            if (upShapeOne.tag == this.gameObject.tag && downShapeOne.tag == this.gameObject.tag)
+            if (upShapeOne != null && downShapeOne != null)
             {
-                upShapeOne.GetComponent<PlayerController>().isMatched = true;
-                downShapeOne.GetComponent<PlayerController>().isMatched = true;
-                isMatched = true;
+                if (upShapeOne.tag == this.gameObject.tag && downShapeOne.tag == this.gameObject.tag)
+                {
+                    upShapeOne.GetComponent<PlayerController>().isMatched = true;
+                    downShapeOne.GetComponent<PlayerController>().isMatched = true;
+                    isMatched = true;
+                }
             }
+            
         }
     }
 }

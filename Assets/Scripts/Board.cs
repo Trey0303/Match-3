@@ -70,14 +70,14 @@ public class Board : MonoBehaviour
             if(row > 1)//if col <= 1 is the case
             {
 
-                if(allShapes[col, row - 1].tag == piece.tag && allShapes[col, row - 2].tag == piece.tag)//check the two shapes behind
+                if(allShapes[col, row - 1].tag == piece.tag && allShapes[col, row - 2].tag == piece.tag)//check the two shapes below
                 {
                     return true;
                 }
             }
             if (col > 1)//if row <= 1 is the case
             {
-                if (allShapes[col - 1, row].tag == piece.tag && allShapes[col - 2, row].tag == piece.tag)//check the two shapes below
+                if (allShapes[col - 1, row].tag == piece.tag && allShapes[col - 2, row].tag == piece.tag)//check the two shapes behind
                 {
                     return true;
                 }
@@ -101,12 +101,15 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void DestroyAt(int col, int row)
+    private void DestroyAt(int col, int row)
     {
         if (allShapes[col, row].GetComponent<PlayerController>().isMatched)
         {
+            //destroy target shape and set to null/empty 
             Destroy(allShapes[col, row]);
             allShapes[col, row] = null;
+
+            //add points to score
         }
     }
 
