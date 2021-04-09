@@ -34,17 +34,19 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         FindMatches();
+        
         if (isMatched)
         {
             //colors out matching shapes
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
             mySprite.color = new Color(0f, 0f, 0f, .2f);
             //destroys matching shapes
-            board.DestroyMatch();
+
         }
+
 
         targetX = col;//takes any changes made to the col position and applies to targetX as well
         targetY = row;//takes any changes made to the row position and applies to targetY as well
@@ -128,6 +130,7 @@ public class PlayerController : MonoBehaviour
             otherShape.GetComponent<PlayerController>().row += 1;//make otherShape move one col foward
             row -= 1;//changes the targetX/y position as well
         }
+        board.DestroyMatch();//check for shapes to delete
     }
 
     //check for shape matches
@@ -147,7 +150,7 @@ public class PlayerController : MonoBehaviour
                     isMatched = true;
                 }
             }
-            
+
         }
         if (row >= 1 && row < board.height - 1)//if horizontally matched
         {
@@ -163,7 +166,7 @@ public class PlayerController : MonoBehaviour
                     isMatched = true;
                 }
             }
-            
+
         }
     }
 }

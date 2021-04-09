@@ -100,14 +100,6 @@ public class Board : MonoBehaviour
             }
         }
 
-        //FillBoard();
-
-        ////destroy matches until there are non left on board
-        //while (MatchesOnBoard())
-        //{
-        //    DestroyMatch();
-        //}
-
         StartCoroutine(ReFillBoard());
     }
 
@@ -126,11 +118,11 @@ public class Board : MonoBehaviour
 
     private void FillBoard()
     {
-        for(int i = 0; i< width; i++)
+        for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
-                if(allShapes[i,j] == null)
+                if (allShapes[i, j] == null)
                 {
                     Vector2 tempPosition = new Vector2(i, j);
                     int ShapeToUse = Random.Range(0, shapes.Length);
@@ -164,13 +156,15 @@ public class Board : MonoBehaviour
 
     IEnumerator ReFillBoard()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.3f);
         //refill board with new shapes
         FillBoard();
+        yield return new WaitForSeconds(.3f);
 
         //destroy matches until there are non left on board
         while (MatchesOnBoard())
         {
+            yield return new WaitForSeconds(.3f);
             DestroyMatch();
         }
     }
