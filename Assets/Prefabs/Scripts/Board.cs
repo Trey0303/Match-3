@@ -165,12 +165,12 @@ public class Board : MonoBehaviour
     {
         //refill board with new shapes
         FillBoard();
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.1f);
 
         //destroy matches until there are non left on board
         while (MatchesOnBoard())
         {
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(.1f);
             DestroyMatch();
         }
     }
