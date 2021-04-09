@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
         var tempMousePosition = Input.mousePosition;//get start positon
         tempMousePosition.z = 10;//set z position
         startMouseHoldPos = Camera.main.ScreenToWorldPoint(tempMousePosition);//give start position to startMouseHoldPos
-        Debug.Log(startMouseHoldPos);
+        //Debug.Log(startMouseHoldPos);
     }
 
     private void OnMouseUp()//when player lets go of mouse click
@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
     void CalculateDragAngle()//gets distance from OnMouseDown() position to OnMouseUp() position
     {
         dragAngle = Mathf.Atan2(endMouseHoldPos.y - startMouseHoldPos.y, endMouseHoldPos.x - startMouseHoldPos.x) * 180 / Mathf.PI;
-        Debug.Log(dragAngle);
+        //Debug.Log(dragAngle);
     }
 
     void MoveShape()
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
         // if player drags to the right and col is < the last col(max board width)
         if (dragAngle > -45 && dragAngle <= 45 && col < board.width - 1/*need to subtract 1 to keep inbounds of grid*/)//right
         {
-            Debug.Log("right");
+            //Debug.Log("right");
             otherShape = board.allShapes[col + 1, row];//grabs the shape one col after current shape
             otherShape.GetComponent<PlayerController>().col -= 1;//make otherShape move one col back
             col += 1;//changes the targetX/y position as well
@@ -118,14 +118,14 @@ public class PlayerController : MonoBehaviour
         }
         else if ((dragAngle > 135 || dragAngle <= -135) && col >= 1)//left
         {
-            Debug.Log("left");
+            //Debug.Log("left");
             otherShape = board.allShapes[col - 1, row];//grabs the shape one col before current shape
             otherShape.GetComponent<PlayerController>().col += 1;//make otherShape move one col forward
             col -= 1;//changes the targetX/y position as well
         }
         else if (dragAngle < -45 && dragAngle >= -135 && row >= 1)//down
         {
-            Debug.Log("down");
+            //Debug.Log("down");
             otherShape = board.allShapes[col, row - 1];//grabs the shape one row below current shape
             otherShape.GetComponent<PlayerController>().row += 1;//make otherShape move one col foward
             row -= 1;//changes the targetX/y position as well

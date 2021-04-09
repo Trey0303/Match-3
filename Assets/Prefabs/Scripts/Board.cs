@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    
+
+    public Sfx MatchSFX;//reference to Sfx script
+
     //initialize height and width of game board
     public int width;
     public int height;
@@ -19,6 +21,8 @@ public class Board : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MatchSFX = GameObject.Find("Sound").GetComponent<Sfx>();
+
         //sets boards height and width(how big the board needs to be)
         //allTiles = new BackBoard[width, height];//gives allPieces its height and width
         allShapes = new GameObject[width, height];//gives allshapes its max height and width
@@ -110,6 +114,9 @@ public class Board : MonoBehaviour
             //destroy target shape and set to null/empty 
             Destroy(allShapes[col, row]);
             allShapes[col, row] = null;
+
+            //play sfx
+            MatchSFX.PlaySfx();
 
             //add points to score
             score = score + points;
