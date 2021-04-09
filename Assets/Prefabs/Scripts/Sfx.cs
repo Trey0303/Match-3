@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackBoard : MonoBehaviour
+public class Sfx : MonoBehaviour
 {
-    
-
     // Start is called before the first frame update
     void Start()
     {
