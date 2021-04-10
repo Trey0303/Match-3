@@ -23,13 +23,13 @@ public class Timer : MonoBehaviour
     void Update()
     {
         count++;
-        if(time == 0)
+        if (time == 0)
         {
-            
+
             BackgroundMusic.StopBackgroundMusic();
             musicOn = false;
         }
-        if(time == 11)
+        if (time == 11)
         {
             BackgroundMusic.PlayBackgroundMusic();
             musicOn = true;
@@ -40,12 +40,13 @@ public class Timer : MonoBehaviour
             {
                 count = 0;
                 time--;
-            }else if (!musicOn)
+            }
+            else if (!musicOn)
             {
                 count = 0;
                 time++;
             }
-            
+
         }
     }
 }
