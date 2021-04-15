@@ -134,8 +134,9 @@ public class PlayerController : MonoBehaviour
     }
 
     //check for shape matches
-    void FindMatches()
+    IEnumerator FindMatches()
     {
+        yield return new WaitForSeconds(.2f);
         if (col >= 1 && col < board.width - 1)//if horizontally matched
         {
             GameObject leftShapeOne = board.allShapes[col - 1, row];//looks one shape to the left
