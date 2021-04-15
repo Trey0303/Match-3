@@ -15,8 +15,6 @@ public class PlayerController : MonoBehaviour
 
     private MatchCheck checkforMatches;
 
-    //public List<GameObject> curMatches = new List<GameObject>();
-
     public Board board;//reference Board script
     private GameObject otherShape;//points to shape that needs to change with current shape
 
