@@ -13,25 +13,47 @@ public class MatchCheck : MonoBehaviour
         board = GameObject.Find("Board").GetComponent<Board>();
     }
 
+    public void FindAllMatches()
+    {
+        StartCoroutine(FindMatches());
+    }
+
     private IEnumerator FindMatches()
     {
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.1f);
         for(int i = 0; i < board.width; i++)
         {
             for (int j = 0; j < board.height; j++)
             {
-                GameObject currentShape
-                if(curMatches != null)
+                GameObject curShape = board.allShapes[i, j];
+                if(curShape != null)
                 {
-                    if(i <= 1 && i < board.width - 1)
+                    if(i >= 1 && i < board.width - 1)
                     {
                         GameObject leftShape = board.allShapes[i - 1, j];
                         GameObject rightShape = board.allShapes[i + 1, j];
                         if(leftShape != null && rightShape != null)
                         {
-                            if(leftShape.tag == this.gameObject.tag && rightShape.tag == this.gameObject.tag)
+                            if(leftShape.tag == curShape.tag && rightShape.tag == curShape.tag)
                             {
+                                leftShape.GetComponent<PlayerController>().isMatched = true;
+                                rightShape.GetComponent<PlayerController>().isMatched = true;
+                                curShape.GetComponent<PlayerController>().isMatched = true;
+                            }
+                        }
+                    }
 
+                    if (j >= 1 && j < board.height - 1)
+                    {
+                        GameObject upShape = board.allShapes[i , j + 1];
+                        GameObject downShape = board.allShapes[i , j - 1];
+                        if (upShape != null && downShape != null)
+                        {
+                            if (upShape.tag == curShape.tag && downShape.tag == curShape.tag)
+                            {
+                                upShape.GetComponent<PlayerController>().isMatched = true;
+                                downShape.GetComponent<PlayerController>().isMatched = true;
+                                curShape.GetComponent<PlayerController>().isMatched = true;
                             }
                         }
                     }

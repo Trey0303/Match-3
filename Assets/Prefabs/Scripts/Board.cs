@@ -163,14 +163,15 @@ public class Board : MonoBehaviour
 
     IEnumerator ReFillBoard()
     {
+        yield return new WaitForSeconds(.2f);
         //refill board with new shapes
         FillBoard();
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.2f);
 
         //destroy matches until there are non left on board
         while (MatchesOnBoard())
         {
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.2f);
             DestroyMatch();
         }
     }
