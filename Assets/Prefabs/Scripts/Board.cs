@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
+    private MatchCheck checkforMatches;
 
     public Sfx MatchSFX;//reference to Sfx script
 
@@ -22,6 +23,7 @@ public class Board : MonoBehaviour
     void Start()
     {
         MatchSFX = GameObject.Find("Sound").GetComponent<Sfx>();
+        checkforMatches = GameObject.Find("MatchFinder").GetComponent<MatchCheck>();
 
         //sets boards height and width(how big the board needs to be)
         //allTiles = new BackBoard[width, height];//gives allPieces its height and width
@@ -163,16 +165,24 @@ public class Board : MonoBehaviour
 
     IEnumerator ReFillBoard()
     {
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.1f);
+        
         //refill board with new shapes
         FillBoard();
-        yield return new WaitForSeconds(.2f);
+
+        yield return new WaitForSeconds(.1f);
+
+        //checks for any matches
+        checkforMatches.FindAllMatches();
+
+        yield return new WaitForSeconds(.1f);
 
         //destroy matches until there are non left on board
         while (MatchesOnBoard())
         {
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(.1f);
             DestroyMatch();
+            checkforMatches.FindAllMatches();
         }
     }
 

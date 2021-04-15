@@ -41,8 +41,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        checkforMatches.FindAllMatches();
 
+        //this just changes the color of any matching shapes
         if (isMatched)
         {
             //colors out matching shapes
@@ -51,7 +51,6 @@ public class PlayerController : MonoBehaviour
             //destroys matching shapes
 
         }
-
 
         targetX = col;//takes any changes made to the col position and applies to targetX as well
         targetY = row;//takes any changes made to the row position and applies to targetY as well
@@ -62,7 +61,7 @@ public class PlayerController : MonoBehaviour
             tempPosition = new Vector2(targetX, transform.position.y);
             transform.position = Vector2.Lerp(transform.position, tempPosition, .4f);//moves towards the target position
 
-            //checkforMatches.FindAllMatches();
+            checkforMatches.FindAllMatches();//checks for any matches
         }
         else
         {
@@ -76,7 +75,7 @@ public class PlayerController : MonoBehaviour
             tempPosition = new Vector2(transform.position.x, targetY);
             transform.position = Vector2.Lerp(transform.position, tempPosition, .4f);//moves towards the target position
             
-            //checkforMatches.FindAllMatches();
+            checkforMatches.FindAllMatches();//checks for any matches
         }
         else
         {
@@ -123,7 +122,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (dragAngle > 45 && dragAngle <= 135 && row < board.height - 1)//up
         {
-            Debug.Log("up");
+            //Debug.Log("up");
             otherShape = board.allShapes[col, row + 1];//grabs the shape one row above current shape
             otherShape.GetComponent<PlayerController>().row -= 1;//make otherShape move one col forward
             row += 1;//changes the targetX/y position as well
@@ -145,88 +144,4 @@ public class PlayerController : MonoBehaviour
 
         board.DestroyMatch();//check for shapes to delete
     }
-
-    //public void FindAllMatches()
-    //{
-    //    StartCoroutine(FindMatches());
-    //}
-
-    ////check for shape matches
-    //IEnumerator FindMatches()
-    //{
-    //    yield return new WaitForSeconds(.2f);
-    //    for (int i = 0; i < board.width; i++)
-    //    {
-    //        for (int j = 0; j < board.height; j++)
-    //        {
-    //            GameObject curShape = board.allShapes[i, j];
-    //            if (curShape != null)
-    //            {
-    //                if (i >= 1 && i < board.width - 1)
-    //                {
-    //                    GameObject leftShape = board.allShapes[i - 1, j];
-    //                    GameObject rightShape = board.allShapes[i + 1, j];
-    //                    if (leftShape != null && rightShape != null)
-    //                    {
-    //                        if (leftShape.tag == curShape.tag && rightShape.tag == curShape.tag)
-    //                        {
-    //                            leftShape.GetComponent<PlayerController>().isMatched = true;
-    //                            rightShape.GetComponent<PlayerController>().isMatched = true;
-    //                            curShape.GetComponent<PlayerController>().isMatched = true;
-    //                        }
-    //                    }
-    //                }
-
-    //                if (j >= 1 && j < board.height - 1)
-    //                {
-    //                    GameObject upShape = board.allShapes[i, j + 1];
-    //                    GameObject downShape = board.allShapes[i, j - 1];
-    //                    if (upShape != null && downShape != null)
-    //                    {
-    //                        if (upShape.tag == curShape.tag && downShape.tag == curShape.tag)
-    //                        {
-    //                            upShape.GetComponent<PlayerController>().isMatched = true;
-    //                            downShape.GetComponent<PlayerController>().isMatched = true;
-    //                            curShape.GetComponent<PlayerController>().isMatched = true;
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-
-    //    //yield return new WaitForSeconds(.2f);
-    //    //if (col >= 1 && col < board.width - 1)//if horizontally matched
-    //    //{
-    //    //    GameObject leftShapeOne = board.allShapes[col - 1, row];//looks one shape to the left
-    //    //    GameObject rightShapeOne = board.allShapes[col + 1, row];//looks one shape to the right
-    //    //    if(leftShapeOne != null && rightShapeOne != null)
-    //    //    {
-    //    //        //if match is found set all matching shapes to true
-    //    //        if (leftShapeOne.tag == this.gameObject.tag && rightShapeOne.tag == this.gameObject.tag)
-    //    //        {
-    //    //            leftShapeOne.GetComponent<PlayerController>().isMatched = true;
-    //    //            rightShapeOne.GetComponent<PlayerController>().isMatched = true;
-    //    //            isMatched = true;
-    //    //        }
-    //    //    }
-
-    //    //}
-    //    //if (row >= 1 && row < board.height - 1)//if horizontally matched
-    //    //{
-    //    //    GameObject upShapeOne = board.allShapes[col , row + 1];
-    //    //    GameObject downShapeOne = board.allShapes[col , row - 1];
-    //    //    if (upShapeOne != null && downShapeOne != null)
-    //    //    {
-    //    //        //if match is found set all matching shapes to true
-    //    //        if (upShapeOne.tag == this.gameObject.tag && downShapeOne.tag == this.gameObject.tag)
-    //    //        {
-    //    //            upShapeOne.GetComponent<PlayerController>().isMatched = true;
-    //    //            downShapeOne.GetComponent<PlayerController>().isMatched = true;
-    //    //            isMatched = true;
-    //    //        }
-    //    //    }
-
-    //    //}
-    //}
 }

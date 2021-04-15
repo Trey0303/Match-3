@@ -5,7 +5,6 @@ using UnityEngine;
 public class MatchCheck : MonoBehaviour
 {
     public Board board;
-    public List<GameObject> curMatches = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +17,7 @@ public class MatchCheck : MonoBehaviour
         StartCoroutine(FindMatches());
     }
 
-    private IEnumerator FindMatches()
+    private IEnumerator FindMatches()//checks for matching shapes
     {
         yield return new WaitForSeconds(.1f);
         for(int i = 0; i < board.width; i++)
@@ -28,7 +27,7 @@ public class MatchCheck : MonoBehaviour
                 GameObject curShape = board.allShapes[i, j];
                 if(curShape != null)
                 {
-                    if(i >= 1 && i < board.width - 1)
+                    if(i >= 1 && i < board.width - 1)//checks horizontally
                     {
                         GameObject leftShape = board.allShapes[i - 1, j];
                         GameObject rightShape = board.allShapes[i + 1, j];
@@ -43,7 +42,7 @@ public class MatchCheck : MonoBehaviour
                         }
                     }
 
-                    if (j >= 1 && j < board.height - 1)
+                    if (j >= 1 && j < board.height - 1)//checks vertically
                     {
                         GameObject upShape = board.allShapes[i , j + 1];
                         GameObject downShape = board.allShapes[i , j - 1];
