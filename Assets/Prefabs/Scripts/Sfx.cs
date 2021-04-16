@@ -8,26 +8,49 @@ using UnityEngine.UI;
 
 public class Sfx : MonoBehaviour
 {
-    public InputField muteButton;
+    public Sprite unmuteMusic;
+    public Sprite muteMusic;
+
+    public Sprite unmuteSound;
+    public Sprite muteSound;
+
+    public Button musicMuteButton;
+    public Button soundMuteButton;
+
     public AudioSource match;
     public AudioSource background;
 
     public int isMuted;
+    public int isSFXMuted;
+
+    //make a seperate script for sound
 
     void Start()
     {
+        //music
         isMuted = PlayerPrefs.GetInt("MUTE");//grabs saved settings
-        if (isMuted == 0)
+        if (isMuted == 1)
         {
             background.Pause();
-            PlayerPrefs.SetInt("MUTE", isMuted);
-            PlayerPrefs.Save();
+            musicMuteButton.image.sprite = muteMusic;
         }
-        else if (isMuted == 1)
+        else if (isMuted == 0)
         {
             background.Play();
-            PlayerPrefs.SetInt("MUTE", isMuted);
-            PlayerPrefs.Save();
+            musicMuteButton.image.sprite = unmuteMusic;
+        }
+
+        ////sound
+        isSFXMuted = PlayerPrefs.GetInt("SFX");//grabs saved settings
+        if (isSFXMuted == 1)//if muted
+        {
+            match.volume = 0;//set volume to 0
+            soundMuteButton.image.sprite = muteSound;
+        }
+        else if (isSFXMuted == 0)//if unmuted
+        {
+            match.volume = 1;//set volume to 1
+            soundMuteButton.image.sprite = unmuteSound;
         }
     }
 
@@ -48,20 +71,49 @@ public class Sfx : MonoBehaviour
 
     public void MuteMusicPressed()
     {
-        Debug.Log(isMuted);
 
-        if (isMuted == 1)//if unmuted then mute
+        //music
+        if (isMuted == 0)//if unmuted then mute
         {
+            Debug.Log("Muted");
             background.Pause();//tells to mute/pause
-            isMuted = 0;//sets to muted state
+            isMuted = 1;//sets to muted state
+            musicMuteButton.image.sprite = muteMusic;
             PlayerPrefs.SetInt("MUTE", isMuted);//saves change to settings
-            
+
         }
-        else if(isMuted == 0)//if muted then unmute
+        else if (isMuted == 1)//if muted then unmute
         {
+            Debug.Log("UnMuted");
             background.Play();//tells to play/unmute
-            isMuted = 1;//sets to unmuted state
+            isMuted = 0;//sets to unmuted state
+            musicMuteButton.image.sprite = unmuteMusic;
             PlayerPrefs.SetInt("MUTE", isMuted);//saves change to settings
+
+        }
+
+
+    }
+
+    public void MuteSoundPressed()
+    {
+        //sound
+        if (isSFXMuted == 0)//if unmuted then mute
+        {
+            Debug.Log("Muted");
+            match.volume = 0;//set volume to 0
+            isSFXMuted = 1;//sets to muted state
+            soundMuteButton.image.sprite = muteSound;
+            PlayerPrefs.SetInt("SFX", isSFXMuted);//saves change to settings
+
+        }
+        else if (isSFXMuted == 1)//if muted then unmute
+        {
+            Debug.Log("UnMuted");
+            match.volume = 1;//set volume to 1
+            isSFXMuted = 0;//sets to unmuted state
+            soundMuteButton.image.sprite = unmuteSound;
+            PlayerPrefs.SetInt("SFX", isSFXMuted);//saves change to settings
 
         }
     }
